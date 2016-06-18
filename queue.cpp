@@ -1,9 +1,75 @@
-//数组队列
-
 #include <iostream>
+#include <queue>
+#include <list>
+#include <algorithm>
+#include <deque>
 
 using namespace std;
 
+
+template < class T, class Sequence = deque<T> >
+
+class queue 
+{
+	friend bool operator==(const queue< T, Sequence >& x, const queue<T, Sequence>& y );
+	friend bool operator<(const queue<T, Sequence>& x, const queue<T, Sequence>& y);
+	//以下的__STL_NULL_TMPL_ARGS会展开为 <>
+public:
+	typedef typename Sequence::value_type value_type;
+	typedef typename Sequence::size_type size_type;
+	typedef typename Sequence::reference reference;
+	typedef typename Sequence::const_reference const_reference;
+protected:
+	Sequence c;
+public:
+	//以下完全利用 Sequence c 的操作，完成queue的操作
+	bool empty() const { return c.empty(); }
+	size_type size() const { return c.size(); }
+	reference front() { return c.front(); }
+	const_reference front() const { return c.front(); }
+	reference back() { return c.back(); }
+	const_reference back() const { return c.back(); }
+	//deque是两头可进可出，queue是末端进，前端出（所以先进者先出）
+	void push (const value_type& x) { c.push_back(); }
+	void pop() { c.pop_front(); } 
+};
+
+template <class T, class Sequence>
+
+bool operator==(const queue< T, Sequence >& x, const queue<T, Sequence>& y )
+{
+	return x.c == y.c;
+}
+
+template <class T, class Sequence >
+
+bool operator<(const queue<T, Sequence>& x, const queue<T, Sequence>& y)
+{
+	return x.c < y.c;
+}
+
+//用list做底层容器
+int main()
+{
+	queue<int, list<int> > iqueue;
+	iqueue.push(1);
+	iqueue.push(3);
+	iqueue.push(5);
+	iqueue.push(7);
+
+	cout<< iqueue.size() <<endl;	//4
+	cout<< iqueue.front() <<endl;	//1
+	
+	iqueue.pop(); cout << iqueue.front() <<endl;	//3
+	iqueue.pop(); cout << iqueue.front() <<endl;	//5
+	iqueue.pop(); cout << iqueue.front() <<endl;	//7
+	cout<< iqueue.size() << endl;	//1
+
+	return 0;
+}
+
+/*
+//数组队列
 
 class Queue
 {
@@ -63,7 +129,7 @@ void main()
 	cout<<s.pop()<<endl;
 	cout<<s.pop()<<endl;
 }
-
+*/
 //链表队列
 
 /*class Node

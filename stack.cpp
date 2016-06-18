@@ -1,8 +1,76 @@
-//数组栈
-
+//Stack
 #include <iostream>
+#include <deque>
+#include <stack>
+#include <list>
+#include <algorithm>
 
 using namespace std;
+
+
+//==========源代码==========
+template< class T,class Sequence = deque<T> >
+
+class Stack
+{
+	friend bool operator== __STL_NULL_TMPL_ARGS (const stack<T, Sequence>& x, const stack<T,Sequence>& y);
+	friend bool operator< __STL_NULL_TMPL_ARGS  (const stack<T, Sequence>& x, const stack<T, Sequence>& y);
+
+public:
+	typedef typename Sequence::value_type value_type;
+	typedef typename Sequence::size_type size_type;
+	typedef typename Sequence::reference reference;
+	typedef typename Sequence::const_reference const_reference;
+protected:
+	Sequence c;			//底层容器
+public:
+	//一下完全利用Sequence c 的操作，完成 stack 的操作
+	bool empty() const { return c.empty(); }
+	size_type size() const { return c,size(); }
+	const_reference top() const { return c.back(); }
+	reference top() { return c.back(); }
+	//deque是两头可进出， stack 是末端进，末端出 （所以后进者先出）
+	void push(const value_type& x) { c.push_back(x); }
+	void pop() { c.pop_back(); }
+};
+
+template <class T,class Sequence>
+
+bool operator==(const stack<T, Sequence>& x, const stack<T,Sequence>& y)
+{
+	return x.c == y.c;
+}
+
+template <class T,class Sequence>
+
+bool operator<(const stack<T, Sequence>& x, const stack<T, Sequence>& y)
+{
+	return x.c < y.c;
+}
+
+//list 做底层容器
+int main()
+{
+	stack< int, list<int> > istack;
+	istack.push(1);
+	istack.push(3);
+	istack.push(5);
+	istack.push(7);
+
+	cout << istack.size() << endl;	//4
+	cout << istack.top() << endl;   //7
+
+	istack.pop(); cout << istack.top() << endl;	//5
+	istack.pop(); cout << istack.top() << endl;	//3
+	istack.pop(); cout << istack.top() << endl;	//1
+
+	cout << istack.size() <<endl;	//1
+	return 0;
+}
+
+
+
+//数组栈
 
 
 /*class Stack
@@ -58,6 +126,8 @@ void main()
 	cout<<s.pop()<<" "<<s.pop()<<" "<<s.pop()<<endl;
 }
 */
+
+/*
 //链表栈
 
 class Node
@@ -146,3 +216,5 @@ void main()
 	//s.push(node3);
 	//cout<<s.pop().node<<" "<<s.pop().node<<" "<<s.pop().node<<endl;
 }
+
+  */

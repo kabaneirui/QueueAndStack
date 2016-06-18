@@ -11,8 +11,8 @@ template < class T, class Sequence = deque<T> >
 
 class queue 
 {
-	friend bool operator==(const queue< T, Sequence >& x, const queue<T, Sequence>& y );
-	friend bool operator<(const queue<T, Sequence>& x, const queue<T, Sequence>& y);
+	friend bool operator== __STL_NULL_TMPL_ARGS (const queue& x, const queue& y );
+	friend bool operator< __STL_NULL_TMPL_ARGS (const queue<T, Sequence>& x, const queue<T, Sequence>& y);
 	//以下的__STL_NULL_TMPL_ARGS会展开为 <>
 public:
 	typedef typename Sequence::value_type value_type;
